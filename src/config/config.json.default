@@ -1,0 +1,30 @@
+{
+    "scanning": {
+        "enabled": true,
+        "intervalMs": 1000,
+        "urls": [
+            "https://example.com/"
+        ],
+        "compareLinesOnly": true
+    },
+    
+    "notifications": {
+        "email": {
+            "enabled": true,
+            "recipients": [
+                ""
+            ],
+            "subject": "Scanner Alert - {url}",
+            "from": "youremailhere@email.com",
+            "smtp": {
+                "host": "smtp.gmail.com",
+                "port": 465,
+                "secure": true,
+                "auth": {
+                    "user": "",
+                    "pass": ""
+                }
+            }
+        }
+    }
+}

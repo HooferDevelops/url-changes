@@ -1,3 +1,7 @@
+src/config/config.json
+src/cache/*
+!src/cache/.blank
+
 # Logs
 logs
 *.log
