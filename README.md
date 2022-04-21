@@ -18,7 +18,7 @@ npm install
 
 ## Initial Setup
 
-In order to generate an editable config, you have two options. You can either copy the config.json.default -> config.json OR you may run the application once.
+In order to generate an editable config, you have two options. You can either copy the `config.json.default` **->** `config.json` OR you may run the application once.
 
 ```bash
 cd src
