@@ -41,6 +41,8 @@ npm run start
     - Defines if scanning is enabled
 - intervalMs
     - The interval used for scanning all URLs, in milliseconds
+- ignoreList
+    - A list of keywords to be used to ignore changes in lines
 - urls
     - A list of all the URLs to be scanned
 - compareLinesOnly
