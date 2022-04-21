@@ -102,19 +102,15 @@ const scan = async () => {
             // Send an email if enabled
             if (emailNotifications.enabled) {
                 let results = ""
-                //let results = "\n<span style='font-family: 'American Typewriter'; font-size: 12px;'>URL: " + url + "</span>\n\n<div style='background-color: #f5f5f5; padding: 10px; border-radius: 5px;'>";
 
                 diff.forEach((part) => {
-                    if (part.added) {
-                        results += `<div class="text-holder"><p class="added">${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}</p></div>`;
-                    } else if (part.removed) {
-                        results += `<div class="text-holder"><p class="removed">${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}</p></div>`;
-                    } else {
-                        results += `<div class="text-holder"><p class="normal">${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}</p></div>`;
-                    }
+                    results += `<div class="text-holder">
+                                    <p class="${part.added ? "added" : (part.removed ? "removed" : "normal")}">
+                                        ${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}
+                                    </p>
+                                </div>
+                                `;
                 })
-
-                //results += "</div>";
 
                 results = `
                     <html>
