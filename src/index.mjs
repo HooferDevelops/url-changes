@@ -203,14 +203,22 @@ const scan = async () => {
                     
                     let subject = emailNotifications.subject.replace("{url}", url);
 
-                    transporter.sendMail({
-                        from: emailNotifications.useSMTPFrom ? (emailNotifications.smtp.auth.useEnv ? process.env.user : emailNotifications.smtp.auth.user) : emailNotifications.from,
-                        to: recipient,
-                        subject: subject,
-                        html: results,
-                    });
+                    try {
+                        transporter.sendMail({
+                            from: emailNotifications.useSMTPFrom ? (emailNotifications.smtp.auth.useEnv ? process.env.user : emailNotifications.smtp.auth.user) : emailNotifications.from,
+                            to: recipient,
+                            subject: subject,
+                            html: results,
+                        });
 
-                    console.log(`Email sent to ${recipient}`);
+                        console.log(`Email sent to ${recipient}`);
+                    } catch(e) {
+                        console.warn(`! - Email to ${recipient} failed. - !`);
+                        console.warn(e.message);
+                        console.warn("! --------------------------------- !");
+                    }
+
+                    
                 });
             }
         }
