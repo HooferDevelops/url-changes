@@ -1,6 +1,10 @@
 # url-changes
  Scans a list of provided URLs for changes at a set interval.
 
+# Previews
+
+![](./previews/preview-1.png)
+
 # Installation
 
 ## NodeJS Requirements
