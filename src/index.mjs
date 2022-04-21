@@ -103,11 +103,11 @@ const scan = async () => {
 
                 diff.forEach((part) => {
                     if (part.added) {
-                        results += `<p style="color: green; padding: 0; margin: 0;">${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}</p>\n`;
+                        results += `<div class="text-holder"><p class="added">${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}</p></div>`;
                     } else if (part.removed) {
-                        results += `<p style="color: red; padding: 0; margin: 0; text-decoration: line-through;">${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}</p>\n`;
+                        results += `<div class="text-holder"><p class="removed">${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}</p></div>`;
                     } else {
-                        results += `<p style="color: grey; padding: 0; margin: 0;">${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}</p>\n`;
+                        results += `<div class="text-holder"><p class="normal">${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}</p></div>`;
                     }
                 })
 
@@ -116,9 +116,52 @@ const scan = async () => {
                 results = `
                     <html>
                         <head>
+                            <style>
+                                body {
+                                    
+                                }
+
+                                .content {
+                                    width: fit-content;
+                                    height: fit-content;
+                                    display: inline-block;
+
+                                    background-color: #edece8;
+                                    margin: 20px;
+                                    padding: 5px;
+                                    border: 3px dashed #e0e0e0;
+                                }
+
+                                .text-holder {
+                                    width: 100%;
+                                }
+
+                                p {
+                                    color: #91908a;
+                                    width: fit-content;
+                                    display: inline-block;
+
+                                    padding: 0px;
+                                    margin: 0px;
+
+                                    font-family: monospace;
+                                    font-size: 20px;
+                                }
+
+                                .added {
+                                    background-color: #b9f5ab;
+                                }
+
+                                .removed {
+                                    background-color: #f5b6ab;
+                                    text-decoration: line-through;
+                                }
+                            </style>
                         </head>
                         <body>
-                            ${results}
+                            <div class="content">
+                                ${results}
+                            </div>
                         </body>
                     </html>
                 `
