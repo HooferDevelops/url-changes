@@ -95,7 +95,27 @@ const scan = async () => {
 
         // Compare the cache file with the response
         const diff = (scanning.compareLinesOnly ? diffLines : diffChars)(cache, response);
-        if (diff.length >= 2) {
+        let hasChanges = false
+
+        // Check if there are changes
+        diff.forEach((part) => {
+            if (part.added || part.removed) {
+                let ignored = false
+                // Check to see if the part contains an ignored string
+                scanning.ignoreList.forEach((ignore) => {
+                    if (part.value.includes(ignore)) {
+                        ignored = true
+                    }
+                })
+
+                if (!ignored) {
+                    hasChanges = true
+                }
+            }
+        });
+
+        if (hasChanges) {
+
             // Update the cache file
             await fsWriteFile(fileName, response, "utf8");
 
@@ -104,6 +124,17 @@ const scan = async () => {
                 let results = ""
 
                 diff.forEach((part) => {
+                    if (!part.added && !part.removed) {
+                        // Fill in every line except for the first two and last two new lines
+                        part.value = part.value.split("\n")
+
+                        if (part.value.length > 4*3) {
+                            let unimportant = part.value.splice(2*3, part.value.length - 5*3, "...")
+                        }
+
+                        part.value = part.value.join("\n")
+                    }
+                    
                     results += `<div class="text-holder">
                                     <p class="${part.added ? "added" : (part.removed ? "removed" : "normal")}">
                                         ${part.value.replace(/[\<]/g,'&lt;').replace(/[\>]/g,'&gt;').replace(/[\n]/g,'<br>')}
@@ -149,11 +180,13 @@ const scan = async () => {
 
                                 .added {
                                     background-color: #b9f5ab;
+                                    font-weight: bold;
                                 }
 
                                 .removed {
                                     background-color: #f5b6ab;
                                     text-decoration: line-through;
+                                    font-weight: bold;
                                 }
                             </style>
                         </head>

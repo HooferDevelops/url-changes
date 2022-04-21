@@ -2,6 +2,9 @@
     "scanning": {
         "enabled": true,
         "intervalMs": 5000,
+        "ignoreList": [
+            "SPECIAL_WORD"
+        ],
         "urls": [
             "https://example.com/"
         ],
