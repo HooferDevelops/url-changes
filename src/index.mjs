@@ -91,7 +91,7 @@ const scan = async () => {
         const cache = await fsReadFile(fileName, "utf8");
 
         // Compare the cache file with the response
-        const diff = (scanning.compareLinesOnly ? diffLines : diffChars)(cache, response+"wasd");
+        const diff = (scanning.compareLinesOnly ? diffLines : diffChars)(cache, response);
         if (diff.length >= 2) {
             // Update the cache file
             await fsWriteFile(fileName, response, "utf8");
