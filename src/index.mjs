@@ -33,10 +33,11 @@ const transporter = emailNotifications.enabled ? nodemailer.createTransport({
     port: emailNotifications.smtp.port,
     secure: emailNotifications.smtp.secure,
     auth: {
-        user: emailNotifications.smtp.auth.user == "" ? "NONE" : emailNotifications.smtp.auth.user,
-        pass: emailNotifications.smtp.auth.pass == "" ? "NONE" : emailNotifications.smtp.auth.pass
+        user: emailNotifications.smtp.auth.useEnv ? process.env.user : emailNotifications.smtp.auth.user,
+        pass: emailNotifications.smtp.auth.useEnv ? process.env.pass : emailNotifications.smtp.auth.pass
     }
 }) : false;
+
 
 // Check the authentication of the username and password provided
 let emailAuthenticationStatus = false
@@ -90,15 +91,15 @@ const scan = async () => {
         const cache = await fsReadFile(fileName, "utf8");
 
         // Compare the cache file with the response
-        const diff = (scanning.compareLinesOnly ? diffLines : diffChars)(cache, response);
-        
-        if (diff.length > 2) {
+        const diff = (scanning.compareLinesOnly ? diffLines : diffChars)(cache, response+"wasd");
+        if (diff.length >= 2) {
             // Update the cache file
             await fsWriteFile(fileName, response, "utf8");
 
             // Send an email if enabled
             if (emailNotifications.enabled) {
-                let results = "\n<span style='font-family: 'American Typewriter'; font-size: 12px;'>URL: " + url + "</span>\n\n<div style='background-color: #f5f5f5; padding: 10px; border-radius: 5px;'>";
+                let results = ""
+                //let results = "\n<span style='font-family: 'American Typewriter'; font-size: 12px;'>URL: " + url + "</span>\n\n<div style='background-color: #f5f5f5; padding: 10px; border-radius: 5px;'>";
 
                 diff.forEach((part) => {
                     if (part.added) {
@@ -110,7 +111,17 @@ const scan = async () => {
                     }
                 })
 
-                results += "</div>";
+                //results += "</div>";
+
+                results = `
+                    <html>
+                        <head>
+                        </head>
+                        <body>
+                            ${results}
+                        </body>
+                    </html>
+                `
 
                 // Send the email to all recipients
                 emailNotifications.recipients.forEach((recipient) => {
@@ -118,7 +129,7 @@ const scan = async () => {
                     let subject = emailNotifications.subject.replace("{url}", url);
 
                     transporter.sendMail({
-                        from: emailNotifications.from,
+                        from: emailNotifications.useSMTPFrom ? (emailNotifications.smtp.auth.useEnv ? process.env.user : emailNotifications.smtp.auth.user) : emailNotifications.from,
                         to: recipient,
                         subject: subject,
                         html: results,

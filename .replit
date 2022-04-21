@@ -1,0 +1,2 @@
+language = "bash"
+run = "cd src; npm run start"

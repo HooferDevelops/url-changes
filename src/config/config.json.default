@@ -16,11 +16,13 @@
             ],
             "subject": "Scanner Alert - {url}",
             "from": "youremailhere@email.com",
+            "useSMTPFrom": true,
             "smtp": {
                 "host": "smtp.gmail.com",
                 "port": 465,
                 "secure": true,
                 "auth": {
+                    "useEnv": true,
                     "user": "",
                     "pass": ""
                 }
