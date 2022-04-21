@@ -20,6 +20,9 @@ const fsWriteFile = promisify(fs.writeFile);
 if (!fs.existsSync(path.join(__dirname, "config", "config.json"))) {
     // Create a copy of the default config file
     fs.copyFileSync(path.join(__dirname, "config", "config.json.default"), path.join(__dirname, "config", "config.json"));
+    
+    // Warn the user
+    throw new Error("Created a new config file for you. Please edit the file and restart the application.");
 }
 
 // Load config file

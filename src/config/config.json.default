@@ -1,7 +1,7 @@
 {
     "scanning": {
         "enabled": true,
-        "intervalMs": 1000,
+        "intervalMs": 5000,
         "urls": [
             "https://example.com/"
         ],
